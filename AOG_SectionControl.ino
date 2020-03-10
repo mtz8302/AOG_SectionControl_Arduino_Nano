@@ -343,6 +343,10 @@ void loop()
 		//motorDriveRight();
 
 		//Send to agopenGPS, once per second
+		Serial.print(127);//V4: PGN 127 249 for section control
+		Serial.print(",");
+		Serial.print(249);
+		Serial.print(",");
 		Serial.print(rateAppliedLPMLeft); //100 x actual!
 		Serial.print(",");
 		Serial.print(rateAppliedLPMRight); //100 x actual!
