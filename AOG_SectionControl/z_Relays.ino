@@ -41,7 +41,7 @@ void SetRelays(void)
 
 
 /*void SetRelays(void)
-{
+{ 
 	if (bitRead(RelayOUT[0], 0)) bitSet(PORTB, 5); //Digital Pin 13
 	else bitClear(PORTB, 5);
 	if (bitRead(RelayOUT[0], 1)) bitSet(PORTB, 2); //Digital Pin 10
