@@ -4,19 +4,19 @@ void SetRelays(void)
 		for (byte i = 0; i < 8; i++)
 		{
 			if (bitRead(RelayOUT[0], i) == LOW) {
-				digitalWrite(Relay_PIN[i], LOW);
+				digitalWrite(Relay_PIN[i], !SectRelaysON);
 			}
 			else {
-				digitalWrite(Relay_PIN[i], HIGH);
+				digitalWrite(Relay_PIN[i], SectRelaysON);
 			}
 		}
 		for (byte i = 8; i < SectNum; i++)
 		{
 			if (bitRead(RelayOUT[1], (i - 8)) == LOW) {
-				digitalWrite(Relay_PIN[i], LOW);
+				digitalWrite(Relay_PIN[i], !SectRelaysON);
 			}
 			else {
-				digitalWrite(Relay_PIN[i], HIGH);
+				digitalWrite(Relay_PIN[i], SectRelaysON);
 			}
 		}
 	}
@@ -25,10 +25,10 @@ void SetRelays(void)
 		for (byte i = 0; i < SectNum; i++)
 		{
 			if (bitRead(RelayOUT[0], i) == LOW) {
-				digitalWrite(Relay_PIN[i], LOW);
+				digitalWrite(Relay_PIN[i], !SectRelaysON);
 			}
 			else {
-				digitalWrite(Relay_PIN[i], HIGH);
+				digitalWrite(Relay_PIN[i], SectRelaysON);
 			}
 		}
 		//Serial.println(RelayOUT[0]);

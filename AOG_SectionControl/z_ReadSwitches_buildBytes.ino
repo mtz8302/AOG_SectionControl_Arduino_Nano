@@ -39,6 +39,12 @@ void SectSWRead()
 		else SectMainOn = false;
 	}
 
+	//Documentation only = set to manual, Main = ON so every section is on, or off by sections switch
+	if (DocumentationOnly == 1) {
+		SectAuto = false;
+		SectMainOn = true;
+	}
+
 	//if Main toggle switch pressed, use it for delay time and signal to AGO stays for SectSWDelayTime
 	if (SWVal[0] > SectSWON) { SectMainOn = true; SectMainSWpressed = true; SectMainSWlastTime = SectSWcurrentTime; }
 	if (SWVal[0] < SectSWOFF) { SectMainOn = false; SectMainSWpressed = true; SectMainSWlastTime = SectSWcurrentTime; }

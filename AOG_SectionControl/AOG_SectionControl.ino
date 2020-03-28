@@ -1,3 +1,4 @@
+//V4.01 28.03.2020 MTZ8302
 //User config: ***********************************************************************************
 
 //the following lines should be configed by the user to fit the programm to the sprayer/Arduino
@@ -8,7 +9,7 @@
 #define FlowPWMLeft_PIN    11  //PB3  Rate-Control Valve PWM/Motor ON/OFF; if used or not change in line 35ff RateControlEquiped
 #define FlowDirRight_PIN    0  //0  = unused Rate-Control Valve Direktion; if used or not change in line 35ff RateControlEquiped
 #define FlowPWMRight_PIN    0  //0  = unused Rate-Control Valve PWM; if used or not change in line 35ff RateControlEquiped
-#define FlowEncALeft_PIN    2  //int0 D2 pin 2 Flowmeter left/1 if used or not change in line 35ff RateControlEquiped
+#define FlowEncALeft_PIN    0// 2  //int0 D2 pin 2 Flowmeter left/1 if used or not change in line 35ff RateControlEquiped
 #define FlowEncARight_PIN   0  //int1 D3 pin 3 Flowmeter right/2 if used or not change in line 35ff RateControlEquiped
 int Relay_PIN[] = { 13,10,9,8,7,6,5 }; //sections of sprayer, when changed also change in Relays code (other Tab) 1=D13/PB5;2=D10/PB2;3=D9/PB1;4=D8/PB0;5=D7/PB7;6=D6/PD6;7=D5/PD5
 #define SectSW_PIN0  A0      //section switches to arduino
@@ -29,20 +30,23 @@ int Relay_PIN[] = { 13,10,9,8,7,6,5 }; //sections of sprayer, when changed also 
 #define SectSW_PIN15  0      // 0 = not in use
 #define SectAutoManSW_PIN 4  // D4/PD4 Main Auto/Manual switch
 #define SectMainSW_PIN A7    //arduino to AOG Main auto toggle switch
-#define RateSWLeft_PIN A6        //Rate +/- switch
-#define RateSWRight_PIN A6        //Rate +/- switch
+#define RateSWLeft_PIN A6    //Rate +/- switch
+#define RateSWRight_PIN A6   //Rate +/- switch
 
 //sprayer config settings
-#define SectNum 7                 // number of sections equiped max 16, depends on hardware, change the lines 10 to 20 in tab ReadSwitches_buildBytes of void SectSWRead to fit to the input switches
-boolean SectSWequiped = true;      //true if section input switches are equiped, else: false
+#define SectNum 7						// number of sections equiped max 16, depends on hardware, change the lines 10 to 20 in tab ReadSwitches_buildBytes of void SectSWRead to fit to the input switches
+boolean SectSWequiped = true;			// true if section input switches are equiped, else: false
 //Example1: motor valve is controled only by Switch not by AOG, no Flowmeter, : RateControl..Equiped = false; RateSW..Equiped = true; RateControlPRM = false;
 //Example2: PWM valve, with flowmeter all controled by AOG:   RateControl..Equiped = true; RateSW..Equiped = true; RateControlPRM = true;
-boolean RateControlLeftEquiped = true;  //true if Rate control is there, else: false
-boolean RateSWLeftEquiped = true;     //true if Rate control Pressure switch is there, else: false
-boolean RateControlRightEquiped = false;  //true if Rate control is there, else: false
-boolean RateSWRightEquiped = false;     //true if Rate control Pressure switch is there, else: false
-boolean RateControlPWM = false;    // true if PWM valve, false if Motor drive for pressure changing
-#define BaudRate 38400             // Baudrate = speed of serial port. AOG uses 38400. If useing bluetooth module, you need to configure it to this Baudrate
+boolean RateControlLeftEquiped = true;  // true if Rate control is there, else: false
+boolean RateSWLeftEquiped = true;		// true if Rate control Pressure switch is there, else: false
+boolean RateControlRightEquiped = false;// true if Rate control is there, else: false
+boolean RateSWRightEquiped = false;     // true if Rate control Pressure switch is there, else: false
+boolean RateControlPWM = false;			// true if PWM valve, false if Motor drive for pressure changing
+uint8_t SectRelaysON = 1;				// relays spray on 1 or 0 (high or low)
+uint8_t DocumentationOnly = 0;			// 0: use as section control, 1: Documentation only = AOG writes the state of the input switches
+
+#define BaudRate 38400					// Baudrate = speed of serial port. AOG uses 38400. If useing bluetooth module, you need to configure it to this Baudrate
 
 // END of user config ****************************************************************************
 
@@ -236,9 +240,9 @@ void setup()
 	Serial.begin(BaudRate);
 
 	//attachInterrupt(0, ISR, mode); //below is preferred method - most compatible
-	if (RateControlLeftEquiped && !FlowEncALeft_PIN == 0) { RateAuto = true; attachInterrupt(digitalPinToInterrupt(FlowEncALeft_PIN), pinLeftChangeISR, CHANGE); }
+	if (RateControlLeftEquiped && (!FlowEncALeft_PIN == 0)) { RateAuto = true; attachInterrupt(digitalPinToInterrupt(FlowEncALeft_PIN), pinLeftChangeISR, CHANGE); }
 	//attachInterrupt(0, ISR, mode); //below is preferred method - most compatible
-	if (RateControlRightEquiped && !FlowEncARight_PIN == 0) { RateAuto = true; attachInterrupt(digitalPinToInterrupt(FlowEncARight_PIN), pinRightChangeISR, CHANGE); }
+	if (RateControlRightEquiped && (!FlowEncARight_PIN == 0)) { RateAuto = true; attachInterrupt(digitalPinToInterrupt(FlowEncARight_PIN), pinRightChangeISR, CHANGE); }
 
 	Serial.flush();   // flush out buffer
 	//PWM rate settings Adjust to desired PWM Rate
@@ -378,7 +382,7 @@ void loop()
 	SectMainToAOGOld = SectMainToAOG;//keep old values, bofore calling switch voids
 	if (SectSWequiped) { SectSWRead(); }
 	else { RelayOUT[0] = RelayFromAOG[0]; RelayOUT[1] = RelayFromAOG[1]; } //checks if section switch is toggled
-	if (RateSWLeftEquiped | RateSWRightEquiped) { RateSWRead(); }
+	if (RateSWLeftEquiped || RateSWRightEquiped) { RateSWRead(); }
 	SetRelays();
 	if (!RateAuto) { motorDrive(); } //if Manual do everytime, not only in timed loop
 
