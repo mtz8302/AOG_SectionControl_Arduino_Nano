@@ -15,8 +15,6 @@ The settings are done directly in first part of the code, especially the pin ass
 
 Works with the circuit (by WEder) based on Arduino nano, see PDFs.
 
-A suggestion for ESP32 pinout is in the PDF. Don't use pins GPIO 0, 6-12. The pins 33-39 are input only, and don't have pullup resistors.
-
 NO rate control in AOG V4 at the moment (not supported by AOG)
 
 Suggestion for documentation only: https://agopengps.discourse.group/t/section-control-documentation-for-ferilizer-spreader/1360
