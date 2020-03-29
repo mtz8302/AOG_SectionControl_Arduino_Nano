@@ -7,10 +7,11 @@ For existing Nano boards, the Upgrade to Nano33iot, to get WiFi is a good soluti
  
 Supports: <br>- Section control, 16 sections
           <br>- hardware input switches (Main ON/OFF, OFF/Auto/ON for each section, +/- pressure (only motor driven, no rate control in V4 so far))
+          <br>- Bluetooth modules eg. HC06 for wireless data transfer (alternetively use WiFi with ESP32 or Nano33iot)
           <br>- documentation only (e.g. for machinery with hydraulic gates)
    <br>and most combinations of it</b>
 
-The settings are done directly in firts part of the code, especially the pin assignment.
+The settings are done directly in first part of the code, especially the pin assignment.
 
 Works with the circuit (by WEder) based on Arduino nano, see PDFs.
 
