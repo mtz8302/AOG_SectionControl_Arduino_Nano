@@ -1,7 +1,7 @@
 
-// Section Control code for AgOpenGPS V 4.3.10 (=V17) and V4.6 or V5.x.20 (=V20) for Arduino Nano
+// Section Control code for AgOpenGPS V 4.3.10 (=V17) and V5.x.20 (=V20) for Arduino Nano
 
-// videos on youtube MTZ8302 code on GitHub MTZ8302
+// by MTZ8302 see GitHub https://github.com/mtz8302 and Youtube Ma Ha MTZ8302 https://www.youtube.com/channel/UCv44DlUXQJKbQjzaOUssVgw
 
 // can be used as output only = relais for sections
 // or for documentation = input only = input to ESP32 -> enables mapping for active (=switch to GND) section in AOG
@@ -13,7 +13,7 @@
 
 
 byte vers_nr = 46;
-//char VersionTXT[150] = " - 29. Maerz 2021 by MTZ8302 (Nano Version, V4.3 + V5 ready)";
+//char VersionTXT[150] = " - 5. April 2021 by MTZ8302 (Nano Version, V4.3 + V5 ready)";
 
 struct set {
 	//User config: ***********************************************************************************
